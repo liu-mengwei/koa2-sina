@@ -16,4 +16,23 @@ router.get('/json', async (ctx, next) => {
   }
 })
 
+router.get('/profile/:userName/:className', async (ctx, next) => {
+  const { userName, className } = ctx.params;
+  ctx.body = {
+    title: 'heiheihei',
+    userName,
+    className
+  }
+})
+
+router.post('/testpost', async (ctx, next) => {
+  const { user, age } = ctx.request.body;
+  ctx.body = {
+    user,
+    age
+  }
+})
+
+
+
 module.exports = router
