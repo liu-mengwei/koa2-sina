@@ -9,13 +9,17 @@ const logger = require('koa-logger')
 const index = require('./routes/index')
 const users = require('./routes/users')
 
+const session = require('koa-generic-session')
+const redisStore = require('koa-redis')
+const { REDIS_CONF } = require('./conf/db')
+
 // error handler 页面打印错误
 onerror(app)
 
 // middlewares
 // post form可以通过它来解析出来
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes: ['json', 'form', 'text']
 }))
 
 // 解析出来的json是字符串型的，变成对象形式
@@ -39,6 +43,23 @@ app.use(views(__dirname + '/views', {
 //   const ms = new Date() - start
 //   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 // })
+
+// session配置
+app.keys = ['']
+app.use(session({
+  key: 'weibo.sid', // cookie名称 sid和sess 其实存的值是一样的，一个是cookie用的，一个是服务器的session用的
+  prefix: 'weibo:sess', // 存储在redis中的名称
+  // ttl: 24 * 60 * 60 * 1000,  // 可不写，这个是session过期时间，默认和cookie过期时间相同
+  cookie: {
+    path: '/',
+    httpOnly: true, // 只能由服务器传给客户端，客户端是不能改这个值的
+    maxAge: 24 * 60 * 60 * 1000 // 过期时间
+  },
+  store: redisStore({
+    all: `${REDIS_CONF.host}:${REDIS_CONF.port}` // all代表了url 端口号都包含
+  }) // session存储在那里
+}))
+
 
 // routes
 app.use(index.routes(), index.allowedMethods())
