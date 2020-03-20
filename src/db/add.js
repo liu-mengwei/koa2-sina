@@ -1,3 +1,10 @@
+/*
+ * @Anthor: liumengwei
+ * @Date: 2020-03-18 16:57:14
+ * @LastEditors: liumengwei
+ * @LastEditTime: 2020-03-20 17:33:27
+ * @Description: 描述
+ */
 
 const { User, Blog } = require('./model');
 
