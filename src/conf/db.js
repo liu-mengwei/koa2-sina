@@ -1,9 +1,6 @@
-/*
- * @Anthor: liumengwei
- * @Date: 2020-03-19 15:05:16
- * @LastEditors: liumengwei
- * @LastEditTime: 2020-03-20 17:17:24
- * @Description: 数据库配置
+/**
+ * @author liumengwei
+ * @description 数据库配置
  */
 
 const { isProd } = require('../utils/env');

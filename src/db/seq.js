@@ -1,10 +1,3 @@
-/*
- * @Anthor: liumengwei
- * @Date: 2020-03-18 14:20:02
- * @LastEditors: liumengwei
- * @LastEditTime: 2020-03-20 17:51:05
- * @Description: 描述
- */
 const Sequelize = require('sequelize');
 const { SQL_CONF } = require('../conf/db');
 const { isProd, isTest } = require('../utils/env');
