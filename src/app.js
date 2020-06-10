@@ -13,13 +13,21 @@ const logger = require('koa-logger')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const errRoutes = require('./routes/views/error')
 
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 const { REDIS_CONF } = require('./conf/db')
+const { isProd } = require('./utils/env')
 
 // error handler 页面打印错误
-onerror(app)
+const errConfig = {};
+if (isProd) {
+  errConfig = {
+    redirect: '/error'
+  }
+}
+onerror(app, errConfig)
 
 // middlewares
 // post form可以通过它来解析出来
@@ -69,6 +77,7 @@ app.use(session({
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(errRoutes.routes(), errRoutes.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
